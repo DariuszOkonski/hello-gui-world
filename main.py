@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import BOTH, StringVar
+from tkinter import BOTH, END, StringVar, messagebox
 from PIL import ImageTk, Image
 
 root = tkinter.Tk()
@@ -15,6 +15,19 @@ output_color = '#4ea5d9'
 root.config(bg=root_color)
 
 # define functions
+def submit_name():
+    if name.get() == '':
+        tkinter.messagebox.showwarning("Warning", "input can not be empty before submiting")
+        return
+
+    if case_style.get() == 'normal':
+        name_label = tkinter.Label(output_frame, text="Hello " + name.get() + "! Keep learning tkinter")
+    elif case_style.get() == 'upper':
+        name_label = tkinter.Label(output_frame, text=("Hello " + name.get() + "! Keep learning tkinter").upper())
+    name_label.config(bg=output_color)
+    name_label.pack()
+    name.delete(0, END)
+
 
 # define layout
 input_frame = tkinter.LabelFrame(root, bg=input_color)
@@ -24,7 +37,7 @@ output_frame.pack(padx=10, pady=(0, 10), fill=BOTH, expand=True)
 
 # define input and button
 name = tkinter.Entry(input_frame, text='Enter your name', width=20)
-submit_button = tkinter.Button(input_frame, text='Submit')
+submit_button = tkinter.Button(input_frame, text='Submit', command=submit_name)
 name.grid(row=0, column=0, padx=10, pady=10)
 submit_button.grid(row=0, column=1, padx=10, pady=10, ipadx=20)
 
@@ -43,6 +56,5 @@ smile_img = ImageTk.PhotoImage(Image.open('smile.png'))
 smile_label = tkinter.Label(output_frame, image=smile_img)
 smile_label.config(bg=output_color)
 smile_label.pack()
-
 
 root.mainloop()
